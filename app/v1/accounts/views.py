@@ -1,10 +1,11 @@
 from rest_framework.response import Response
 from .models import Accounts
-from .serializers import SignupSerializer,LoginSerializer
+from .serializers import SignupSerializer, LoginSerializer
 from rest_framework import viewsets, permissions
 from rest_framework.decorators import action
 from django.contrib.auth import authenticate
-
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer, TokenRefreshSerializer
+from django.utils import timezone
 
 class AccountViewset(viewsets.ViewSet):
     """
@@ -33,13 +34,19 @@ class AccountViewset(viewsets.ViewSet):
         pw : 8 글자 이상
         """
         serializer = LoginSerializer(data=request.data)
-        print(request.data)
         serializer.is_valid(raise_exception=True)
         user = authenticate(email=request.data.get(
             'email'), password=request.data.get('password'))
         if user:
-            # token, _ = Token.objects.get_or_create(user=user)
-            return Response({'message': '로그인 성공!'})
+            user.last_login = timezone.now()  # last_login 갱신
+            user.save(update_fields=['last_login'])
+            try:
+                token = TokenObtainPairSerializer.get_token(user)
+                refresh_token = str(token)
+                access_token = str(token.access_token)
+                return Response({'message': '로그인 성공', 'access_token': access_token, 'refresh_token': refresh_token})
+            except Exception as e:
+                print(e)
+                return Response({'message': 'token 발급 실패'}, status=500)
         else:
             return Response({'message': '로그인 실패!'}, status=400)
-        
