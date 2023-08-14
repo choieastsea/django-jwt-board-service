@@ -6,6 +6,7 @@ from django.db import models
 class AccountsManager(BaseUserManager):
     """
     Manager class for AbstractBaseUser class 'Accounts'
+    super user와 manager는 만들지 않았다
     """
 
     def create_user(self, email, password=None):
@@ -34,4 +35,4 @@ class Accounts(AbstractBaseUser):
         return self.email
 
     class Meta:
-        db_table = "accounts"
+        db_table = 'accounts'
