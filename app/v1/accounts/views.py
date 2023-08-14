@@ -39,7 +39,7 @@ class AccountViewset(viewsets.ViewSet):
             'email'), password=request.data.get('password'))
         if user:
             # token, _ = Token.objects.get_or_create(user=user)
-            return Response({'token': '로그인 성공!'})
+            return Response({'message': '로그인 성공!'})
         else:
-            return Response({'error': '로그인 실패!'}, status=400)
+            return Response({'message': '로그인 실패!'}, status=400)
         
