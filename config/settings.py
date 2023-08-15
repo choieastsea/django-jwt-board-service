@@ -51,7 +51,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_simplejwt',
     # internal apps
-    'app.v1.accounts'
+    'app.v1.accounts',
+    'app.v1.posts',
 ]
 
 MIDDLEWARE = [
