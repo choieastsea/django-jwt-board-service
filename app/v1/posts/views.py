@@ -2,6 +2,7 @@ from rest_framework.response import Response
 from .models import Posts
 from .serializers import PostSerializer
 from rest_framework import viewsets, permissions
+from config.paginations import PostPagination
 
 class PostViewset(viewsets.ModelViewSet):
     """
@@ -10,6 +11,7 @@ class PostViewset(viewsets.ModelViewSet):
     queryset = Posts.objects.all()
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     serializer_class = PostSerializer
+    pagination_class = PostPagination # 10개씩 pagination
 
     def perform_create(self, serializer):
         """
