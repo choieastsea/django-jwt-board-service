@@ -135,7 +135,7 @@ TIME_ZONE = 'Asia/Seoul'
 
 USE_I18N = True
 
-USE_TZ = True
+USE_TZ = False # False로 해야 한국 시간대로 맞출 수 있음
 
 
 # Static files (CSS, JavaScript, Images)
