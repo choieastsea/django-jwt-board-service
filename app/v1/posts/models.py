@@ -15,7 +15,7 @@ class Posts(models.Model):
         updated_at timestamp
     }
     """
-    post_id = models.PositiveIntegerField(primary_key=True)
+    post_id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=255)
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete= models.CASCADE) # user 삭제시 post 삭제
     body = models.TextField()
