@@ -2,7 +2,7 @@ from django.test import TestCase
 from .models import Accounts
 from .serializers import SignupSerializer, LoginSerializer
 import json
-from ...constants import MSG_LOGIN_SUCCESS
+from config.constants import MSG_LOGIN_SUCCESS
 
 
 # 1. 회원가입

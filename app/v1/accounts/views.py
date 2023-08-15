@@ -6,7 +6,7 @@ from rest_framework.decorators import action
 from django.contrib.auth import authenticate
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from django.utils import timezone
-from ...constants import ERR_DB, ERR_LOGIN_FAILED, ERR_TOKEN_FAILED, MSG_SIGNUP_SUCCESS, MSG_LOGIN_SUCCESS
+from config.constants import ERR_DB, ERR_LOGIN_FAILED, ERR_TOKEN_FAILED, MSG_SIGNUP_SUCCESS, MSG_LOGIN_SUCCESS
 
 
 class AccountViewset(viewsets.ViewSet):

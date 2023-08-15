@@ -1,7 +1,7 @@
 from django.core.validators import RegexValidator
 from rest_framework.validators import UniqueValidator
 from .models import Accounts
-from ...constants import ERR_EMAIL_INVALID, ERR_EMAIL_DUPLICATED, ERR_PW_INVALID
+from config.constants import ERR_EMAIL_INVALID, ERR_EMAIL_DUPLICATED, ERR_PW_INVALID
 
 email_regex_validator = RegexValidator(
     regex=r'@',
