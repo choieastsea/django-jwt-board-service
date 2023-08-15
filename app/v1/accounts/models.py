@@ -19,8 +19,14 @@ class AccountsManager(BaseUserManager):
 
 class Accounts(AbstractBaseUser):
     """
-    User Class
-    - fields : [id, email, password, last_login, created_at, updated_at]
+    Table accounts {
+        id integer [primary key]
+        email varchar
+        password varchar
+        last_login timestamp
+        created_at timestamp 
+        updated_at timestamp
+    }
     """
 
     email = models.EmailField(unique=True)
