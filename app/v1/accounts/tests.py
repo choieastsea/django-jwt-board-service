@@ -2,6 +2,7 @@ from django.test import TestCase
 from .models import Accounts
 from .serializers import SignupSerializer, LoginSerializer
 import json
+from ...constants import MSG_LOGIN_SUCCESS
 
 
 # 1. 회원가입
@@ -90,7 +91,7 @@ class AccountsTest(TestCase):
             f'/api/v1/account/login/', {'email': self.email, 'password': self.password})
         self.assertEqual(response.status_code, 200)
         response = json.loads(response.content)
-        self.assertEqual(response['data']['message'], '로그인 성공')
+        self.assertEqual(response['data']['message'], MSG_LOGIN_SUCCESS)
         self.assertEqual(len(response['data']['access_token']) > 0, True)
 
     def test_login_validation(self):
@@ -116,3 +117,27 @@ class AccountsTest(TestCase):
         data = Accounts(email=email3, password=password3)
         serializer = LoginSerializer(data=data)
         self.assertEqual(serializer.is_valid(), False)
+
+    def testToken(self):
+        """
+        jwt token 발급하여 토큰 refresh 테스트
+        """
+        response = self.client.post(
+            f'/api/v1/account/login/', {'email': self.email, 'password': self.password})
+        response = json.loads(response.content)
+        data = response['data']
+        
+        # refresh_token 정상
+        response = self.client.post(
+            f'/api/v1/account/refresh/', {'refresh': data['refresh_token']})
+        self.assertEqual(response.status_code, 200)
+        
+        # refresh_token 안보냈을 경우에 400
+        response = self.client.post(
+            f'/api/v1/account/refresh/')
+        self.assertEqual(response.status_code, 400)
+
+        # refresh_token 엉뚱한 경우에 401
+        response = self.client.post(
+            f'/api/v1/account/refresh/', {'refresh': data['refresh_token'][:-1]})
+        self.assertEqual(response.status_code, 401)
