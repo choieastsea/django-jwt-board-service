@@ -1,0 +1,34 @@
+version: '3'
+
+services:
+  db:
+    image: mysql
+    ports:
+      - "3306:3306" 
+    platform : linux/amd64
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+    environment:
+      MYSQL_ROOT_PASSWORD: 6812
+      MYSQL_DATABASE: docker_wanted
+      MYSQL_USER: db_konkuk
+      MYSQL_PASSWORD: 6812
+
+  web:
+    build: .
+    command: >
+      sh -c "python manage.py migrate &&
+             gunicorn config.wsgi:application --bind 0.0.0.0:8000"
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    environment:
+      DB_NAME: docker_wanted
+      DB_USER: db_konkuk
+      DB_PASSWORD: 6812
+      DB_HOST: db
+      DB_PORT: 3306  
