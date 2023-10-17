@@ -1,6 +1,5 @@
-# 원티드 프리온보딩 백엔드 인턴십 - 선발 과제
+# django-jwt-board-service
 
-- 성명 : 최동해
 - 프로젝트 개발 스택 : Django 4.2.x , Python 3.11.x, MySQL 8.x
 
 ## 프로젝트 구조
